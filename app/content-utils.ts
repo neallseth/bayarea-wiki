@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
+import remarkGfm from "remark-gfm";
 
 const contentDir = path.join(process.cwd(), "content");
 
@@ -12,7 +13,10 @@ export async function getArticleBySlug(slug: string) {
     title: string;
   }>({
     source: fileContent,
-    options: { parseFrontmatter: true },
+    options: {
+      parseFrontmatter: true,
+      mdxOptions: { remarkPlugins: [remarkGfm] },
+    },
   });
   return {
     title: frontmatter.title,
