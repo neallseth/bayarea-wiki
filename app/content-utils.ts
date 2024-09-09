@@ -10,14 +10,12 @@ export async function getArticleBySlug(slug: string) {
   const fileContent = fs.readFileSync(filePath, "utf8");
   const { frontmatter, content } = await compileMDX<{
     title: string;
-    author: string;
-    publishDate: string;
   }>({
     source: fileContent,
     options: { parseFrontmatter: true },
   });
   return {
-    frontmatter,
+    title: frontmatter.title,
     content,
     slug: path.parse(fileName).name,
   };

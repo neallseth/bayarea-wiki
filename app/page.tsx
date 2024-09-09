@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { lora } from "@/app/fonts/fonts";
 
 export default function Home() {
   return (
@@ -11,7 +12,7 @@ export default function Home() {
           height={38}
           priority
         />
-        <p>Bay Area Wiki</p>
+        <p className={lora.className}>Bay Area Wiki</p>
         <input type="text" placeholder="Search" />
       </main>
     </div>
