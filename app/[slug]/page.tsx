@@ -14,25 +14,27 @@ export default async function ArticlePage({
 }) {
   const article = await getArticleBySlug(params.slug);
   return (
-    <div>
-      <Link className="contents" href={"/"}>
-        <Image
-          src="/images/ggb.jpg"
-          className="mb-6"
-          alt="Bay Area Wiki logo"
-          width={30}
-          height={38}
-          priority
-        />
-      </Link>
+    <div className="w-full flex flex-col items-center">
+      <div className="w-full">
+        <Link className="contents" href={"/"}>
+          <Image
+            src="/images/ggb.jpg"
+            className="mb-6"
+            alt="Bay Area Wiki logo"
+            width={30}
+            height={38}
+            priority
+          />
+        </Link>
+      </div>
 
-      <main className="prose">
+      <article className="prose w-full">
         <h1 className={`mb-2 text-2xl font-semibold ${lora.className}`}>
           {article.title}
         </h1>
         <div className="w-full bg-black h-[.01rem]"></div>
         <article>{article.content}</article>
-      </main>
+      </article>
     </div>
   );
 }

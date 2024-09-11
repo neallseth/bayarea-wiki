@@ -11,6 +11,7 @@ export async function getArticleBySlug(slug: string) {
   const fileContent = fs.readFileSync(filePath, "utf8");
   const { frontmatter, content } = await compileMDX<{
     title: string;
+    category?: string;
   }>({
     source: fileContent,
     options: {
@@ -20,6 +21,7 @@ export async function getArticleBySlug(slug: string) {
   });
   return {
     title: frontmatter.title,
+    category: frontmatter.category,
     content,
     slug: path.parse(fileName).name,
   };
