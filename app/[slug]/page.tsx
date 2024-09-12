@@ -1,12 +1,30 @@
-import Link from "next/link";
 import { getAllArticleSlugs, getArticle } from "@/app/utils/articles";
-import Image from "next/image";
-
 import { lora } from "../fonts/fonts";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
+import { HorizontalRule } from "@/components/core-elements";
+import CoreLayout from "@/components/core-layout";
+import { Metadata } from "next";
 
-// Helper component for horizontal rules
-const HorizontalRule = () => <hr className="border-t border-gray-300 my-2" />;
+type Props = {
+  params: { slug: string };
+};
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  // read route params
+  const { slug } = params;
+
+  const article = await getArticle(slug);
+
+  return {
+    title: article.title,
+    //Todo, add description by parsing article content
+    //Todo, add image by parsing article content
+
+    // openGraph: {
+    //   images: ["/some-specific-page-image.jpg"],
+    // },
+  };
+}
 
 const articleComponents = {
   h1: (props: { children?: ReactNode }): JSX.Element => (
@@ -89,20 +107,7 @@ export default async function ArticlePage({
 }) {
   const article = await getArticle(params.slug, articleComponents);
   return (
-    <div className="w-full flex flex-col items-center">
-      <div className="w-full">
-        <Link className="contents" href={"/"}>
-          <Image
-            src="/images/ggb.jpg"
-            className="mb-6"
-            alt="Bay Area Wiki logo"
-            width={30}
-            height={38}
-            priority
-          />
-        </Link>
-      </div>
-
+    <CoreLayout>
       <article className="max-w-prose w-full">
         <h1 className={`text-2xl font-semibold ${lora.className}`}>
           {article.title}
@@ -110,6 +115,6 @@ export default async function ArticlePage({
         <HorizontalRule />
         <article>{article.content}</article>
       </article>
-    </div>
+    </CoreLayout>
   );
 }

@@ -11,7 +11,7 @@ export default function Home() {
           alt="Bay Area Wiki logo"
           width={180}
           height={38}
-          className="rounded-md"
+          className="rounded-md shadow-xl"
           priority
         />
         <p className={lora.className}>Bay Area Wiki</p>

@@ -1,6 +1,7 @@
-import Link from "next/link";
 import { getArticles } from "../content-utils";
 import { ReactElement } from "react";
+import { InternalLink } from "@/components/core-elements";
+import CoreLayout from "@/components/core-layout";
 
 // Mapping between category IDs (as used in MDX frontmatter - e.g., 'place') and category display title (e.g., 'Places')
 const categoryNameMap = {
@@ -37,23 +38,25 @@ export default async function Explore() {
   const articles = await getArticles();
   const articlesByCategory = groupArticlesByCategory(articles);
   return (
-    <div className="flex flex-col gap-8">
-      {Object.entries(articlesByCategory).map(([category, articles]) => (
-        <div key={category} className="flex flex-col gap-2">
-          <h2 className="text-lg font-semibold">
-            {category in categoryNameMap
-              ? categoryNameMap[category as keyof typeof categoryNameMap]
-              : ""}
-          </h2>
-          <div className="flex flex-col gap-1">
-            {articles.map((a) => (
-              <Link key={a.slug} href={`/${a.slug}`}>
-                {a.title}
-              </Link>
-            ))}
+    <CoreLayout>
+      <div className="flex flex-col gap-8 w-full">
+        {Object.entries(articlesByCategory).map(([category, articles]) => (
+          <div key={category} className="flex flex-col gap-2">
+            <h2 className="text-lg font-semibold">
+              {category in categoryNameMap
+                ? categoryNameMap[category as keyof typeof categoryNameMap]
+                : ""}
+            </h2>
+            <div className="flex flex-col gap-1 items-start">
+              {articles.map((a) => (
+                <InternalLink key={a.slug} href={`/${a.slug}`}>
+                  {a.title}
+                </InternalLink>
+              ))}
+            </div>
           </div>
-        </div>
-      ))}
-    </div>
+        ))}
+      </div>
+    </CoreLayout>
   );
 }

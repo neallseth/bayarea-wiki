@@ -4,7 +4,7 @@ import { geistSans, geistMono } from "./fonts/fonts";
 
 export const metadata: Metadata = {
   title: "Bay Area Wiki",
-  description: "Bay Area Wiki",
+  // description: "Bay Area Wiki",
 };
 
 export default function RootLayout({
@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh p-6 sm:p-8 flex flex-col`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-dvh p-6 sm:p-8 flex flex-col max-w-prose mx-auto`}
       >
         {children}
       </body>
