@@ -2,10 +2,14 @@ import fs from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
+import { MDXProvider } from "@mdx-js/react";
 
 const contentDir = path.join(process.cwd(), "content");
 
-export async function getArticleBySlug(slug: string) {
+export async function getArticle(
+  slug: string,
+  customComponents?: React.ComponentProps<typeof MDXProvider>["components"]
+) {
   const fileName = slug + ".mdx";
   const filePath = path.join(contentDir, fileName);
   const fileContent = fs.readFileSync(filePath, "utf8");
@@ -18,6 +22,7 @@ export async function getArticleBySlug(slug: string) {
       parseFrontmatter: true,
       mdxOptions: { remarkPlugins: [remarkGfm] },
     },
+    components: customComponents,
   });
   return {
     title: frontmatter.title,
@@ -30,7 +35,7 @@ export async function getArticleBySlug(slug: string) {
 export async function getArticles() {
   const files = fs.readdirSync(contentDir);
   const articles = await Promise.all(
-    files.map(async (file) => await getArticleBySlug(path.parse(file).name))
+    files.map(async (file) => await getArticle(path.parse(file).name))
   );
   return articles;
 }

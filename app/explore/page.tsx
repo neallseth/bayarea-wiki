@@ -35,32 +35,25 @@ function groupArticlesByCategory(articles: Article[]) {
 
 export default async function Explore() {
   const articles = await getArticles();
-  const articlesByCateogry = groupArticlesByCategory(articles);
+  const articlesByCategory = groupArticlesByCategory(articles);
   return (
     <div className="flex flex-col gap-8">
-      {Object.entries(articlesByCateogry).map(([cat, arts]) => (
-        <div key={cat} className="flex flex-col gap-2">
+      {Object.entries(articlesByCategory).map(([category, articles]) => (
+        <div key={category} className="flex flex-col gap-2">
           <h2 className="text-lg font-semibold">
-            {cat in categoryNameMap
-              ? categoryNameMap[cat as keyof typeof categoryNameMap]
+            {category in categoryNameMap
+              ? categoryNameMap[category as keyof typeof categoryNameMap]
               : ""}
           </h2>
           <div className="flex flex-col gap-1">
-            {arts.map((art) => (
-              <Link key={art.slug} href={`/${art.slug}`}>
-                {art.title}
+            {articles.map((a) => (
+              <Link key={a.slug} href={`/${a.slug}`}>
+                {a.title}
               </Link>
             ))}
           </div>
         </div>
       ))}
     </div>
-    // <ul>
-    //   {articles.map((article) => (
-    //     <li key={article.slug}>
-    //       <Link href={`/${article.slug}`}>{article.title}</Link>
-    //     </li>
-    //   ))}
-    // </ul>
   );
 }

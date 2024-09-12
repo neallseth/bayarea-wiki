@@ -11,12 +11,16 @@ export default function Home() {
           alt="Bay Area Wiki logo"
           width={180}
           height={38}
+          className="rounded-md"
           priority
         />
         <p className={lora.className}>Bay Area Wiki</p>
         {/* <input type="text" placeholder="Search" /> */}
-        <Link className="text-gray-500" href="/explore">
-          Explore
+        <Link
+          className="text-gray-500 hover:text-gray-400 hover:underline"
+          href="/explore"
+        >
+          →
         </Link>
       </main>
     </div>
