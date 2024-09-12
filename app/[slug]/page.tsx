@@ -14,15 +14,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = params;
 
   const article = await getArticle(slug);
+  console.log(article);
 
   return {
     title: article.title,
-    //Todo, add description by parsing article content
-    //Todo, add image by parsing article content
+    description: article.excerpt,
 
-    // openGraph: {
-    //   images: ["/some-specific-page-image.jpg"],
-    // },
+    openGraph: {
+      images: [article.firstImageUrl || ""],
+    },
   };
 }
 
