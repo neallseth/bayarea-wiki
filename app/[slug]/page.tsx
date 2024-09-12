@@ -3,25 +3,41 @@ import { lora } from "../fonts/fonts";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
 import { HorizontalRule } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 
 type Props = {
   params: { slug: string };
 };
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   // read route params
   const { slug } = params;
 
   const article = await getArticle(slug);
   console.log(article);
 
+  const previousImages = (await parent).openGraph?.images || [];
+
   return {
     title: article.title,
     description: article.excerpt,
 
     openGraph: {
-      images: [article.firstImageUrl || ""],
+      images: article.firstImageUrl
+        ? article.firstImageUrl
+        : [...previousImages],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: article.title,
+      description: article.excerpt || undefined,
+      creator: "@neallseth",
+      images: article.firstImageUrl
+        ? `https://bayarea.wiki/${article.firstImageUrl}`
+        : [...previousImages],
     },
   };
 }

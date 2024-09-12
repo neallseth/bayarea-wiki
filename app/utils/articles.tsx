@@ -8,6 +8,9 @@ import remarkParse from "remark-parse";
 import remarkMdx from "remark-mdx"; // To handle MDX components
 import { visit } from "unist-util-visit";
 
+import { Root, RootContent, Text, Image } from "mdast"; // Types for Markdown AST
+import { MdxJsxFlowElement } from "mdast-util-mdx"; // Type for MDX JSX elements
+
 const contentDir = path.join(process.cwd(), "content");
 
 export async function getArticle(
@@ -17,6 +20,7 @@ export async function getArticle(
   const fileName = slug + ".mdx";
   const filePath = path.join(contentDir, fileName);
   const fileContent = fs.readFileSync(filePath, "utf8");
+
   const { frontmatter, content } = await compileMDX<{
     title: string;
     category?: string;
@@ -28,20 +32,24 @@ export async function getArticle(
     },
     components: customComponents,
   });
+
   // Use remark to parse the MDX content into an AST, including MDX components
-  const ast = unified().use(remarkParse).use(remarkMdx).parse(fileContent);
+  const ast = unified()
+    .use(remarkParse)
+    .use(remarkMdx)
+    .parse(fileContent) as Root;
 
   let firstParagraph: string | null = null;
   let firstImageUrl: string | null = null;
 
   // Helper function to extract text content from a node and its children
-  function extractTextFromNode(node: any): string {
+  function extractTextFromNode(node: RootContent): string {
     let text = "";
 
     if (node.type === "text") {
-      text += node.value;
-    } else if (node.children) {
-      node.children.forEach((child: any) => {
+      text += (node as Text).value;
+    } else if ("children" in node) {
+      (node.children as RootContent[]).forEach((child) => {
         text += extractTextFromNode(child);
       });
     }
@@ -50,28 +58,26 @@ export async function getArticle(
   }
 
   // Traverse the AST to find the first paragraph and the first image
-  visit(ast, (node) => {
-    // Look for the first paragraph
-    if (!firstParagraph && node.type === "paragraph") {
+  visit(ast, "paragraph", (node: RootContent) => {
+    if (!firstParagraph) {
       firstParagraph = extractTextFromNode(node);
     }
+  });
 
-    // Look for the first image (Markdown image syntax `![alt](url)`)
-    if (!firstImageUrl && node.type === "image") {
-      firstImageUrl = node.url;
+  visit(ast, "image", (node: RootContent) => {
+    if (!firstImageUrl) {
+      firstImageUrl = (node as Image).url;
     }
+  });
 
-    // Look for custom components like <Card> with an `imageSrc` prop
-    if (
-      !firstImageUrl &&
-      node.type === "mdxJsxFlowElement" &&
-      node.name === "Card"
-    ) {
+  visit(ast, "mdxJsxFlowElement", (node: MdxJsxFlowElement) => {
+    if (!firstImageUrl && node.name === "Card") {
       const imageProp = node.attributes.find(
-        (attr: any) => attr.name === "imageSrc"
+        (attr) => attr.type === "mdxJsxAttribute" && attr.name === "imageSrc"
       );
-      if (imageProp && imageProp.value) {
-        firstImageUrl = imageProp.value; // Extract imageSrc from the <Card> component
+
+      if (imageProp && imageProp.value && typeof imageProp.value === "string") {
+        firstImageUrl = imageProp.value;
       }
     }
   });
@@ -80,13 +86,12 @@ export async function getArticle(
   return {
     title: frontmatter.title,
     content,
-    category: frontmatter.category || null,
-    excerpt: firstParagraph || null, // first paragraph as excerpt
-    firstImageUrl: firstImageUrl || null, // first image URL or from Card component
+    category: frontmatter.category,
+    excerpt: firstParagraph as string | null,
+    firstImageUrl: firstImageUrl as string | null,
     slug: path.parse(fileName).name,
   };
 }
-
 export async function getArticles() {
   const files = fs.readdirSync(contentDir);
   const articles = await Promise.all(
