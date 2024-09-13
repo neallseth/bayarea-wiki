@@ -42,12 +42,12 @@ export default async function Explore() {
       <div className="flex flex-col gap-8 w-full">
         {Object.entries(articlesByCategory).map(([category, articles]) => (
           <div key={category} className="flex flex-col gap-2">
-            <h2 className="text-lg font-semibold relative top-6 left-4 px-2 bg-background max-w-fit">
+            <h2 className="text-lg font-semibold relative top-6 left-4 px-2 bg-background max-w-fit text-gray-500">
               {category in categoryNameMap
                 ? categoryNameMap[category as keyof typeof categoryNameMap]
                 : ""}
             </h2>
-            <div className="flex flex-col gap-1 items-start p-6 border-solid border-2 border-gray-600 rounded-md">
+            <div className="flex flex-col gap-1 items-start p-6 border-solid border-2 border-gray-500 rounded-md">
               {articles.map((a) => (
                 <InternalLink key={a.slug} href={`/${a.slug}`}>
                   {a.title}

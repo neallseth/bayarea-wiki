@@ -13,11 +13,9 @@ export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  // read route params
   const { slug } = params;
 
   const article = await getArticle(slug);
-  console.log(article);
 
   const previousImages = (await parent).openGraph?.images || [];
 
@@ -97,7 +95,6 @@ const articleComponents = {
   a: (props: AnchorHTMLAttributes<HTMLAnchorElement>): JSX.Element => (
     <a
       href={props.href ?? "#"}
-      target="_blank"
       className="text-blue-600 hover:underline hover:text-blue-400"
     >
       {props.children}

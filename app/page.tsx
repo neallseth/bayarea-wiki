@@ -17,7 +17,7 @@ export default function Home() {
         <p className={lora.className}>Bay Area Wiki</p>
         {/* <input type="text" placeholder="Search" /> */}
         <Link
-          className="text-gray-500 hover:text-gray-400 hover:underline"
+          className="text-xl text-gray-500 hover:text-gray-400 hover:scale-125 transition-all duration-300"
           href="/explore"
         >
           →
