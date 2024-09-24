@@ -5,7 +5,7 @@ import remarkGfm from "remark-gfm";
 import { MDXProvider } from "@mdx-js/react";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import remarkMdx from "remark-mdx"; // To handle MDX components
+import remarkMdx from "remark-mdx";
 import { visit } from "unist-util-visit";
 
 import { Root, RootContent, Text, Image } from "mdast"; // Types for Markdown AST
@@ -82,7 +82,6 @@ export async function getArticle(
     }
   });
 
-  // Return metadata including the first paragraph and first image
   return {
     title: frontmatter.title,
     content,

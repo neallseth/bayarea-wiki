@@ -4,6 +4,7 @@ import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
 import { HorizontalRule } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
 import { Metadata, ResolvingMetadata } from "next";
+import Image from "next/image";
 
 type Props = {
   params: { slug: string };
@@ -100,9 +101,15 @@ const articleComponents = {
       {props.children}
     </a>
   ),
-  Card: (props: { name: string; imageSrc: string }): JSX.Element => (
+  ImageCard: (props: { name: string; imageSrc: string }): JSX.Element => (
     <div className="border border-gray-300 rounded-lg overflow-hidden my-4">
-      <img src={props.imageSrc} alt={props.name} className="w-full h-auto" />
+      <Image
+        src={props.imageSrc}
+        alt={props.name}
+        className="w-full h-auto"
+        width={300}
+        height={300}
+      />
       <p className="p-4 text-sm text-gray-800">{props.name}</p>
     </div>
   ),
