@@ -71,7 +71,7 @@ export async function getArticle(
   });
 
   visit(ast, "mdxJsxFlowElement", (node: MdxJsxFlowElement) => {
-    if (!firstImageUrl && node.name === "Card") {
+    if (!firstImageUrl && node.name === "ImageCard") {
       const imageProp = node.attributes.find(
         (attr) => attr.type === "mdxJsxAttribute" && attr.name === "imageSrc"
       );
