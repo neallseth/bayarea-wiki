@@ -35,7 +35,7 @@ export async function generateMetadata(
       description: article.excerpt || undefined,
       creator: "@neallseth",
       images: article.firstImageUrl
-        ? `https://bayarea.wiki/${article.firstImageUrl}`
+        ? `https://bayarea.wiki${article.firstImageUrl}`
         : [...previousImages],
     },
   };
