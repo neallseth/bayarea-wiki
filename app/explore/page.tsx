@@ -47,12 +47,14 @@ export default async function Explore() {
                 ? categoryNameMap[category as keyof typeof categoryNameMap]
                 : ""}
             </h2>
-            <div className="flex flex-col gap-1 items-start p-6 border-solid border-2 border-gray-500 rounded-md">
-              {articles.map((a) => (
-                <InternalLink key={a.slug} href={`/${a.slug}`}>
-                  {a.title}
-                </InternalLink>
-              ))}
+            <div className="flex flex-col gap-1 items-start p-6 border-solid border-2 border-gray-300 rounded-md">
+              {articles
+                .sort((a, b) => a.title.localeCompare(b.title))
+                .map((a) => (
+                  <InternalLink key={a.slug} href={`/${a.slug}`}>
+                    {a.title}
+                  </InternalLink>
+                ))}
             </div>
           </div>
         ))}

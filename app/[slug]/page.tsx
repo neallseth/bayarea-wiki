@@ -121,7 +121,7 @@ export default async function ArticlePage({
   const article = await getArticle(params.slug, articleComponents);
   return (
     <CoreLayout>
-      <article className="max-w-prose w-full">
+      <article className="w-full">
         <h1 className={`text-2xl font-semibold ${lora.className}`}>
           {article.title}
         </h1>
