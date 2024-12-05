@@ -1,7 +1,11 @@
 import { getAllArticleSlugs, getArticle } from "@/app/utils/articles";
 import { lora } from "../fonts/fonts";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
-import { HorizontalRule } from "@/components/core-elements";
+import {
+  ExternalLink,
+  HorizontalRule,
+  InternalLink,
+} from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
@@ -93,14 +97,13 @@ const articleComponents = {
       )}
     </figure>
   ),
-  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>): JSX.Element => (
-    <a
-      href={props.href ?? "#"}
-      className="text-blue-600 hover:underline hover:text-blue-400"
-    >
-      {props.children}
-    </a>
-  ),
+  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>): JSX.Element => {
+    if (props.href?.startsWith("/")) {
+      return <InternalLink {...props}>{props.children}</InternalLink>;
+    } else {
+      return <ExternalLink {...props}>{props.children}</ExternalLink>;
+    }
+  },
   ImageCard: (props: { name: string; imageSrc: string }): JSX.Element => (
     <div className="border border-gray-300 rounded-lg overflow-hidden my-4">
       <Image
