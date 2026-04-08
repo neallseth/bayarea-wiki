@@ -1,5 +1,5 @@
-import { getArticles } from "../content-utils";
-import { ReactElement } from "react";
+import { getArticles } from "@/lib/articles";
+import { ReactNode } from "react";
 import { InternalLink } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
 
@@ -12,7 +12,7 @@ const categoryNameMap = {
 type Article = {
   title: string;
   category: string | undefined;
-  content: ReactElement;
+  content: ReactNode;
   slug: string;
 };
 
@@ -26,9 +26,11 @@ function groupArticlesByCategory(articles: Article[]) {
         ? article.category
         : "misc";
 
-    groupedArticles[category]
-      ? groupedArticles[category].push(article)
-      : (groupedArticles[category] = [article]);
+    if (groupedArticles[category]) {
+      groupedArticles[category].push(article);
+    } else {
+      groupedArticles[category] = [article];
+    }
   });
 
   return groupedArticles;

@@ -5,7 +5,8 @@ import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Bay Area Wiki",
-  // description: "Bay Area Wiki",
+  description:
+    "A small, opinionated encyclopedia of notable places, institutions, and ideas from the San Francisco Bay Area.",
 };
 
 export default function RootLayout({

@@ -1,4 +1,4 @@
-import { getAllArticleSlugs, getArticle } from "@/app/utils/articles";
+import { getAllArticleSlugs, getArticle } from "@/lib/articles";
 import { lora } from "../fonts/fonts";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
 import {
@@ -10,15 +10,16 @@ import CoreLayout from "@/components/core-layout";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 
+type RouteParams = Promise<{ slug: string }>;
 type Props = {
-  params: { slug: string };
+  params: RouteParams;
 };
 
 export async function generateMetadata(
   { params }: Props,
   parent: ResolvingMetadata
 ): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
 
   const article = await getArticle(slug);
 
@@ -46,12 +47,12 @@ export async function generateMetadata(
 }
 
 const articleComponents = {
-  h1: (props: { children?: ReactNode }): JSX.Element => (
+  h1: (props: { children?: ReactNode }) => (
     <h1 className={`${lora.className} font-semibold text-2xl mb-4`}>
       {props.children}
     </h1>
   ),
-  h2: (props: { children?: ReactNode }): JSX.Element => (
+  h2: (props: { children?: ReactNode }) => (
     <>
       <h2 className={`${lora.className} font-semibold text-xl`}>
         {props.children}
@@ -59,32 +60,33 @@ const articleComponents = {
       <HorizontalRule />
     </>
   ),
-  h3: (props: { children?: ReactNode }): JSX.Element => (
+  h3: (props: { children?: ReactNode }) => (
     <h3 className={`${lora.className} font-semibold text-lg mb-2`}>
       {props.children}
     </h3>
   ),
-  p: (props: { children?: ReactNode }): JSX.Element => (
+  p: (props: { children?: ReactNode }) => (
     <p className="text-base leading-relaxed text-gray-900 mb-4">
       {props.children}
     </p>
   ),
-  ul: (props: { children?: ReactNode }): JSX.Element => (
+  ul: (props: { children?: ReactNode }) => (
     <ul className="list-disc list-inside pl-5 mb-4">{props.children}</ul>
   ),
-  ol: (props: { children?: ReactNode }): JSX.Element => (
+  ol: (props: { children?: ReactNode }) => (
     <ol className="list-decimal pl-5 mb-4">{props.children}</ol>
   ),
-  li: (props: { children?: ReactNode }): JSX.Element => (
+  li: (props: { children?: ReactNode }) => (
     <li className="mb-1 leading-relaxed">{props.children}</li>
   ),
-  blockquote: (props: { children?: ReactNode }): JSX.Element => (
+  blockquote: (props: { children?: ReactNode }) => (
     <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-700 my-4">
       {props.children}
     </blockquote>
   ),
-  img: (props: ImgHTMLAttributes<HTMLImageElement>): JSX.Element => (
+  img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
     <figure>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={props.src ?? ""}
         alt={props.alt}
@@ -97,14 +99,14 @@ const articleComponents = {
       )}
     </figure>
   ),
-  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>): JSX.Element => {
+  a: (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
     if (props.href?.startsWith("/")) {
       return <InternalLink {...props}>{props.children}</InternalLink>;
     } else {
       return <ExternalLink {...props}>{props.children}</ExternalLink>;
     }
   },
-  ImageCard: (props: { name: string; imageSrc: string }): JSX.Element => (
+  ImageCard: (props: { name: string; imageSrc: string }) => (
     <div className="border border-gray-300 rounded-lg overflow-hidden my-4">
       <Image
         src={props.imageSrc}
@@ -120,15 +122,14 @@ const articleComponents = {
 };
 
 export async function generateStaticParams() {
-  return getAllArticleSlugs();
+  return await getAllArticleSlugs();
 }
 
 export default async function ArticlePage({
   params,
-}: {
-  params: { slug: string };
-}) {
-  const article = await getArticle(params.slug, articleComponents);
+}: Props) {
+  const { slug } = await params;
+  const article = await getArticle(slug, articleComponents);
   return (
     <CoreLayout>
       <article className="w-full">
