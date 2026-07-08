@@ -1,4 +1,4 @@
-import { getArticles } from "../content-utils";
+import { getArticles } from "@/app/utils/articles";
 import { ReactElement } from "react";
 import { InternalLink } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
@@ -26,9 +26,11 @@ function groupArticlesByCategory(articles: Article[]) {
         ? article.category
         : "misc";
 
-    groupedArticles[category]
-      ? groupedArticles[category].push(article)
-      : (groupedArticles[category] = [article]);
+    if (groupedArticles[category]) {
+      groupedArticles[category].push(article);
+    } else {
+      groupedArticles[category] = [article];
+    }
   });
 
   return groupedArticles;

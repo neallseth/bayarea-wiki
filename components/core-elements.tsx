@@ -5,22 +5,32 @@ export const HorizontalRule = () => (
   <hr className="border-t border-gray-300 my-2" />
 );
 
-export const InternalLink = (
-  props: AnchorHTMLAttributes<HTMLAnchorElement>
-) => (
-  <Link href={props.href ?? "#"} className="text-blue-600 hover:text-blue-400">
-    {props.children}
+export const InternalLink = ({
+  href,
+  children,
+  ...rest
+}: AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <Link
+    href={href ?? "#"}
+    className="text-blue-600 hover:text-blue-400"
+    {...rest}
+  >
+    {children}
   </Link>
 );
 
-export const ExternalLink = (
-  props: AnchorHTMLAttributes<HTMLAnchorElement>
-) => (
-  <Link
-    href={props.href ?? "#"}
+export const ExternalLink = ({
+  href,
+  children,
+  ...rest
+}: AnchorHTMLAttributes<HTMLAnchorElement>) => (
+  <a
+    href={href}
     target="_blank"
+    rel="noopener noreferrer"
     className="text-blue-600 hover:text-blue-400 hover:underline"
+    {...rest}
   >
-    {props.children}
-  </Link>
+    {children}
+  </a>
 );

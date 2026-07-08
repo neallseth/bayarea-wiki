@@ -2,21 +2,18 @@ import fs from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
-import { MDXProvider } from "@mdx-js/react";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
 import remarkMdx from "remark-mdx";
 import { visit } from "unist-util-visit";
+import type { MDXComponents } from "mdx/types";
 
 import { Root, RootContent, Text, Image } from "mdast"; // Types for Markdown AST
 import { MdxJsxFlowElement } from "mdast-util-mdx"; // Type for MDX JSX elements
 
 const contentDir = path.join(process.cwd(), "content");
 
-export async function getArticle(
-  slug: string,
-  customComponents?: React.ComponentProps<typeof MDXProvider>["components"]
-) {
+export async function getArticle(slug: string, customComponents?: MDXComponents) {
   const fileName = slug + ".mdx";
   const filePath = path.join(contentDir, fileName);
   const fileContent = fs.readFileSync(filePath, "utf8");
