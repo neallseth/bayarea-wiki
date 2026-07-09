@@ -40,7 +40,7 @@ export async function generateMetadata(
       description: article.excerpt || undefined,
       creator: "@neallseth",
       images: article.firstImageUrl
-        ? `https://bayarea.wiki${article.firstImageUrl}`
+        ? article.firstImageUrl
         : [...previousImages],
     },
   };
@@ -125,6 +125,10 @@ export async function generateStaticParams() {
   return await getAllArticleSlugs();
 }
 
+// Only slugs from generateStaticParams exist; anything else 404s instead of
+// hitting the filesystem and throwing a 500
+export const dynamicParams = false;
+
 export default async function ArticlePage({
   params,
 }: Props) {
@@ -137,7 +141,7 @@ export default async function ArticlePage({
           {article.title}
         </h1>
         <HorizontalRule />
-        <article>{article.content}</article>
+        {article.content}
       </article>
     </CoreLayout>
   );
