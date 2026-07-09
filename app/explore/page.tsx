@@ -1,5 +1,5 @@
-import { getArticles } from "@/app/utils/articles";
-import { ReactElement } from "react";
+import { getArticles } from "@/lib/articles";
+import { ReactNode } from "react";
 import { InternalLink } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
 
@@ -12,7 +12,7 @@ const categoryNameMap = {
 type Article = {
   title: string;
   category: string | undefined;
-  content: ReactElement;
+  content: ReactNode;
   slug: string;
 };
 

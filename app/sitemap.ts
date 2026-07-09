@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
-import { getAllArticleSlugs } from "@/app/utils/articles";
+import { getAllArticleSlugs } from "@/lib/articles";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const articles = getAllArticleSlugs().map(({ slug }) => ({
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const slugs = await getAllArticleSlugs();
+  const articles = slugs.map(({ slug }) => ({
     url: `https://bayarea.wiki/${slug}`,
   }));
 

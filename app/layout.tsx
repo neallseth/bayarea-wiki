@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://bayarea.wiki"),
   title: "Bay Area Wiki",
   description:
-    "Recording the culturally notable places, institutions, and ideas emerging from the San Francisco Bay Area.",
+    "A small, opinionated encyclopedia of notable places, institutions, and ideas from the San Francisco Bay Area.",
 };
 
 export default function RootLayout({

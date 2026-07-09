@@ -1,4 +1,4 @@
-import { getAllArticleSlugs, getArticle } from "@/app/utils/articles";
+import { getAllArticleSlugs, getArticle } from "@/lib/articles";
 import { lora } from "../fonts/fonts";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
 import {
@@ -10,8 +10,9 @@ import CoreLayout from "@/components/core-layout";
 import { Metadata, ResolvingMetadata } from "next";
 import Image from "next/image";
 
+type RouteParams = Promise<{ slug: string }>;
 type Props = {
-  params: Promise<{ slug: string }>;
+  params: RouteParams;
 };
 
 export async function generateMetadata(
@@ -85,6 +86,7 @@ const articleComponents = {
   ),
   img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
     <figure>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={props.src ?? ""}
         alt={props.alt}
@@ -120,14 +122,16 @@ const articleComponents = {
 };
 
 export async function generateStaticParams() {
-  return getAllArticleSlugs();
+  return await getAllArticleSlugs();
 }
 
 // Only slugs from generateStaticParams exist; anything else 404s instead of
 // hitting the filesystem and throwing a 500
 export const dynamicParams = false;
 
-export default async function ArticlePage({ params }: Props) {
+export default async function ArticlePage({
+  params,
+}: Props) {
   const { slug } = await params;
   const article = await getArticle(slug, articleComponents);
   return (
