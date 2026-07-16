@@ -53,9 +53,12 @@ export async function generateMetadata(
 
 const articleComponents = {
   h1: (props: { children?: ReactNode }) => (
-    <h1 className={`${lora.className} mb-5 text-3xl font-semibold tracking-[-0.02em]`}>
-      {props.children}
-    </h1>
+    <>
+      <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
+        {props.children}
+      </h1>
+      <div className="mb-8 mt-6 h-px bg-[var(--line)]" />
+    </>
   ),
   h2: (props: { children?: ReactNode }) => (
     <>
@@ -89,20 +92,23 @@ const articleComponents = {
       {props.children}
     </blockquote>
   ),
+  figure: (props: { children?: ReactNode }) => (
+    <figure className="my-8">{props.children}</figure>
+  ),
   img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
-    <figure>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={props.src ?? ""}
-        alt={props.alt}
-        className="mx-auto h-auto max-w-full rounded-md"
-      />
-      {props.alt && (
-        <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
-          {props.alt}
-        </figcaption>
-      )}
-    </figure>
+    /* eslint-disable-next-line @next/next/no-img-element */
+    <img
+      src={props.src ?? ""}
+      alt={props.alt ?? ""}
+      className="h-auto w-full rounded-md shadow-sm ring-1 ring-black/10"
+      loading="lazy"
+      decoding="async"
+    />
+  ),
+  figcaption: (props: { children?: ReactNode }) => (
+    <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
+      {props.children}
+    </figcaption>
   ),
   a: (props: AnchorHTMLAttributes<HTMLAnchorElement>) => {
     if (props.href?.startsWith("/")) {
@@ -111,23 +117,6 @@ const articleComponents = {
       return <ExternalLink {...props}>{props.children}</ExternalLink>;
     }
   },
-  ImageCard: (props: { name: string; imageSrc: string }) => (
-    <figure className="my-8">
-      {/* Article images use their natural dimensions so MDX authors only provide a source and caption. */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={props.imageSrc}
-        alt={props.name}
-        className="h-auto w-full rounded-md shadow-sm ring-1 ring-black/10"
-        loading="lazy"
-        decoding="async"
-      />
-      <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
-        {props.name}
-      </figcaption>
-    </figure>
-  ),
-  HorizontalRule: () => <HorizontalRule />,
 };
 
 export async function generateStaticParams() {
@@ -166,18 +155,14 @@ export default async function ArticlePage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
       <article className="w-full">
-        <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
-          {article.title}
-        </h1>
-        <div className="mb-8 mt-6 h-px bg-[var(--line)]" />
         {article.content}
       </article>
       <footer className="mt-16 border-t border-[var(--line)] pt-7 text-right text-sm">
         <ExternalLink
           className="no-underline"
-          href={`https://github.com/neallseth/bayarea-wiki/edit/main/content/${slug}.mdx`}
+          href={`https://github.com/neallseth/bayarea-wiki/edit/main/content/${article.category}/${slug}.md`}
         >
-          Suggest an edit →
+          Suggest an edit
         </ExternalLink>
       </footer>
     </CoreLayout>

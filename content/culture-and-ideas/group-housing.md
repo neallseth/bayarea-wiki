@@ -1,6 +1,4 @@
----
-title: Group Housing in the Bay Area
----
+# Group Housing in the Bay Area
 
 San Francisco's Bay Area has a decades-long history of novel housing arrangements - nearly all of which constitute some form of _group housing_.
 

@@ -4,21 +4,31 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { unified } from "unified";
 import remarkParse from "remark-parse";
-import remarkMdx from "remark-mdx";
 import { visit } from "unist-util-visit";
 import type { Image, Root, RootContent, Text } from "mdast";
-import type { MdxJsxFlowElement } from "mdast-util-mdx";
+import type { Element, Root as HastRoot } from "hast";
 import type { ElementType, ReactNode } from "react";
 
 const contentDir = path.join(process.cwd(), "content");
 
-type ArticleFrontmatter = {
+export const articleCategories = ["places", "culture-and-ideas"] as const;
+export type ArticleCategory = (typeof articleCategories)[number];
+
+type ArticleMeta = {
   title: string;
-  category?: string;
-  description?: string;
+  excerpt: string | null;
+  firstImageUrl: string | null;
 };
 
-type MdxComponents = Record<string, ElementType>;
+type MarkdownComponents = Record<string, ElementType>;
+
+type ArticleSource = {
+  body: string;
+  category: ArticleCategory;
+  fileName: string;
+  meta: ArticleMeta;
+  slug: string;
+};
 
 function extractTextFromNode(node: RootContent): string {
   if (node.type === "text") {
@@ -34,23 +44,77 @@ function extractTextFromNode(node: RootContent): string {
   return "";
 }
 
-async function readArticleFile(slug: string) {
-  const fileName = `${slug}.mdx`;
-  const filePath = path.join(contentDir, fileName);
-  const fileContent = await readFile(filePath, "utf8");
+async function getArticleSources(): Promise<ArticleSource[]> {
+  const sources = (
+    await Promise.all(
+      articleCategories.map(async (category) => {
+        const categoryDir = path.join(contentDir, category);
+        const files = await readdir(categoryDir);
 
-  return { fileName, fileContent };
+        return Promise.all(
+          files
+            .filter((fileName) => fileName.endsWith(".md"))
+            .map(async (fileName) => {
+              const fileContent = await readFile(
+                path.join(categoryDir, fileName),
+                "utf8"
+              );
+
+              return {
+                body: fileContent,
+                category,
+                fileName,
+                meta: extractArticleMeta(fileContent, fileName),
+                slug: path.parse(fileName).name,
+              };
+            })
+        );
+      })
+    )
+  ).flat();
+
+  const seenSlugs = new Set<string>();
+  for (const source of sources) {
+    if (seenSlugs.has(source.slug)) {
+      throw new Error(`Duplicate article slug: ${source.slug}`);
+    }
+    seenSlugs.add(source.slug);
+  }
+
+  return sources;
 }
 
-async function extractArticleMeta(fileContent: string) {
-  const ast = unified().use(remarkParse).use(remarkMdx).parse(fileContent) as Root;
+async function readArticleSource(slug: string) {
+  const source = (await getArticleSources()).find(
+    (article) => article.slug === slug
+  );
+
+  if (!source) {
+    throw new Error(`Article not found: ${slug}`);
+  }
+
+  return source;
+}
+
+function extractArticleMeta(body: string, fileName: string): ArticleMeta {
+  const ast = unified().use(remarkParse).use(remarkGfm).parse(body) as Root;
+  const titleNode = ast.children[0];
+
+  if (titleNode?.type !== "heading" || titleNode.depth !== 1) {
+    throw new Error(`Article ${fileName} must begin with a level-one heading.`);
+  }
+
+  const title = extractTextFromNode(titleNode).trim();
+  if (!title) {
+    throw new Error(`Article ${fileName} has an empty title.`);
+  }
 
   let excerpt: string | null = null;
   let firstImageUrl: string | null = null;
 
   visit(ast, "paragraph", (node: RootContent) => {
     if (!excerpt) {
-      excerpt = extractTextFromNode(node);
+      excerpt = extractTextFromNode(node).trim() || null;
     }
   });
 
@@ -60,76 +124,87 @@ async function extractArticleMeta(fileContent: string) {
     }
   });
 
-  visit(ast, "mdxJsxFlowElement", (node: MdxJsxFlowElement) => {
-    if (firstImageUrl || node.name !== "ImageCard") {
-      return;
-    }
+  if (!excerpt) {
+    throw new Error(`Article ${fileName} needs an introductory paragraph.`);
+  }
 
-    const imageProp = node.attributes.find(
-      (attr) => attr.type === "mdxJsxAttribute" && attr.name === "imageSrc"
-    );
+  return { title, excerpt, firstImageUrl };
+}
 
-    if (imageProp?.value && typeof imageProp.value === "string") {
-      firstImageUrl = imageProp.value;
-    }
-  });
+function rehypeFigureCaptions() {
+  return (tree: HastRoot) => {
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName !== "p" || node.children.length !== 1) {
+        return;
+      }
 
-  return { excerpt, firstImageUrl };
+      const image = node.children[0];
+      if (image.type !== "element" || image.tagName !== "img") {
+        return;
+      }
+
+      const caption = image.properties.title;
+      delete image.properties.title;
+      node.tagName = "figure";
+
+      if (typeof caption === "string" && caption) {
+        node.children.push({
+          type: "element",
+          tagName: "figcaption",
+          properties: {},
+          children: [{ type: "text", value: caption }],
+        });
+      }
+    });
+  };
 }
 
 export async function getArticle(
   slug: string,
-  components?: MdxComponents
+  components?: MarkdownComponents
 ): Promise<{
   title: string;
-  category: string | undefined;
+  category: ArticleCategory;
   content: ReactNode;
   excerpt: string | null;
   firstImageUrl: string | null;
   slug: string;
 }> {
-  const { fileName, fileContent } = await readArticleFile(slug);
-  const [{ frontmatter, content }, { excerpt, firstImageUrl }] =
-    await Promise.all([
-      compileMDX<ArticleFrontmatter>({
-        source: fileContent,
-        options: {
-          parseFrontmatter: true,
-          mdxOptions: { remarkPlugins: [remarkGfm] },
-        },
-        components,
-      }),
-      extractArticleMeta(fileContent),
-    ]);
-
-  if (typeof frontmatter.title !== "string" || !frontmatter.title.trim()) {
-    throw new Error(`Article ${fileName} is missing a valid title in its frontmatter.`);
-  }
+  const source = await readArticleSource(slug);
+  const { content } = await compileMDX({
+    source: source.body,
+    options: {
+      mdxOptions: {
+        format: "md",
+        remarkPlugins: [remarkGfm],
+        rehypePlugins: [rehypeFigureCaptions],
+      },
+    },
+    components,
+  });
 
   return {
-    title: frontmatter.title,
-    category: frontmatter.category,
+    title: source.meta.title,
+    category: source.category,
     content,
-    excerpt: frontmatter.description?.trim() || excerpt,
-    firstImageUrl,
-    slug: path.parse(fileName).name,
+    excerpt: source.meta.excerpt,
+    firstImageUrl: source.meta.firstImageUrl,
+    slug: source.slug,
   };
 }
 
 export async function getArticles() {
-  const files = await readdir(contentDir);
+  const sources = await getArticleSources();
 
-  return Promise.all(
-    files
-      .filter((file) => file.endsWith(".mdx"))
-      .map(async (file) => getArticle(path.parse(file).name))
-  );
+  return sources.map((source) => ({
+    title: source.meta.title,
+    category: source.category,
+    excerpt: source.meta.excerpt,
+    firstImageUrl: source.meta.firstImageUrl,
+    slug: source.slug,
+  }));
 }
 
 export async function getAllArticleSlugs() {
-  const files = await readdir(contentDir);
-
-  return files
-    .filter((file) => file.endsWith(".mdx"))
-    .map((file) => ({ slug: path.parse(file).name }));
+  return (await getArticleSources()).map(({ slug }) => ({ slug }));
 }

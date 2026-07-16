@@ -1,7 +1,4 @@
----
-title: Key Eras of the Megascene
-category: misc
----
+# Key Eras of the Megascene
 
 San Francisco's [Megascene](/megascene) has passed through a few distinct eras, each with its own macro-level causes, and cultural tendencies. These can be thought of as phases of expansion and contraction.
 

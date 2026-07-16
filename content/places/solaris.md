@@ -1,7 +1,4 @@
----
-title: Solaris
-category: place
----
+# Solaris
 
 **Solaris** was the name of a group housing community in Lower Haight, and a workspace in North Mission ("SolarisAI"). Both were organized by the same party.
 
@@ -16,10 +13,7 @@ It was composed of four main houses (along with a handful of satellite units), c
 - Ra
 - Luminance
 
-<ImageCard
-  name="Sol's dining area, where weekly Sunday dinners took place throughout 2023"
-  imageSrc="/images/solaris/solaris-sol.jpeg"
-/>
+![The dining area inside Sol](/images/solaris/solaris-sol.jpeg "Sol's dining area, where weekly Sunday dinners took place throughout 2023")
 
 As of early 2025, the four houses largely remain inhabited by the original residents and their friends, though their cultural prominence as a formal community has dwindled alongside their event schedule.
 
@@ -27,10 +21,7 @@ As of early 2025, the four houses largely remain inhabited by the original resid
 
 The SolarisAI workspace was formerly located on the third and fourth floors of the commerical property at 1680 Mission St.
 
-<ImageCard
-  name="Tongue-in-cheek wall art referencing a famous Nat Friedman tweet"
-  imageSrc="/images/solaris/solaris-ai-wall.jpeg"
-/>
+![Wall art inside the SolarisAI workspace](/images/solaris/solaris-ai-wall.jpeg "Tongue-in-cheek wall art referencing a famous Nat Friedman tweet")
 
 SolarisAI was active through all of 2024, and during this period became known for its steady clip of high quality events geared toward AI startups and engineers. These events, combined with the space's talent density, made it the de facto home of SF's AI scene during the space's active period.
 

@@ -7,19 +7,19 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All articles",
   description:
-    "An evolving collection of places, cultures, and ideas from the San Francisco Bay Area.",
+    "An evolving collection of places, culture, and ideas from the San Francisco Bay Area.",
   alternates: { canonical: "/explore" },
 };
 
 const categoryDetails = {
-  place: {
+  places: {
     id: "places",
     title: "Places",
     description: "Spaces and institutions.",
   },
-  misc: {
-    id: "cultures-and-ideas",
-    title: "Cultures & ideas",
+  "culture-and-ideas": {
+    id: "culture-and-ideas",
+    title: "Culture & ideas",
     description: "Communities, movements, and histories.",
   },
 } as const;
@@ -45,10 +45,10 @@ export default async function Explore() {
           </Link>
           ,{" "}
           <Link
-            href="#cultures-and-ideas"
+            href="#culture-and-ideas"
             className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
           >
-            cultures and ideas
+            culture and ideas
           </Link>
         </p>
       </header>
@@ -56,7 +56,7 @@ export default async function Explore() {
       <div className="space-y-16">
         {(Object.keys(categoryDetails) as Category[]).map((category) => {
           const categoryArticles = articles
-            .filter((article) => (article.category ?? "misc") === category)
+            .filter((article) => article.category === category)
             .sort((a, b) => a.title.localeCompare(b.title));
           const details = categoryDetails[category];
 

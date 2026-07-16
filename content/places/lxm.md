@@ -1,14 +1,8 @@
----
-title: LxM (Light and Matter)
-category: place
----
+# LxM (Light and Matter)
 
 **LxM** is a [group house](/group-housing) in the Pacific Heights neighborhood of San Francisco.
 
-<ImageCard
-  name="Entering LxM's hardware space"
-  imageSrc="/images/lxm/hardware.jpg"
-/>
+![The entrance to LxM's hardware space](/images/lxm/hardware.jpg "Entering LxM's hardware space")
 
 ## Composition and culture
 

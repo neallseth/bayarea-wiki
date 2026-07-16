@@ -1,7 +1,4 @@
----
-title: Genesis
-category: place
----
+# Genesis
 
 **Genesis** was a [group housing](/group-housing) community in the Lower Haight neighborhood of San Francisco.
 

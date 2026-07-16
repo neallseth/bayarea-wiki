@@ -1,7 +1,4 @@
----
-title: Megascene
-category: misc
----
+# Megascene
 
 **Megascene** is a term used to refer to an amalgam of San Francisco's socio-cultural scenes - particularly those that are adjacent to the technology industry.
 
