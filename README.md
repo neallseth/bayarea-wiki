@@ -1,15 +1,33 @@
 ## Bay Area Wiki
 
-Recording the culturally notable places, institutions, and ideas in emerging from the San Francisco Bay Area.
+Chronicling the culture, places, and ideas of the San Francisco Bay Area.
 
 Particular emphasis is placed on the Bay Area's [Megascene](https://bayarea.wiki/megascene).
 
-### Contribution guide
+### Writing an article
 
-To add an article, simply create a new MDX file under `/content`. The filename will become the article's slug.
+Articles are plain Markdown files organized into two folders:
 
-Metadata is stored in [frontmatter](https://mdxjs.com/guides/frontmatter/) format - the only required field is `title`, but `category` is also recommended for organization purposes. From there, it's just standard [MDX](https://mdxjs.com)!
+```text
+content/
+├── places/
+└── culture-and-ideas/
+```
 
-Images can be added under `/public/images/your-article-name`. Include the image in your article using the `<ImageCard/>` component
+The folder supplies the article's category and the filename becomes its URL slug. Every article begins with its title and an introductory paragraph:
+
+```md
+# Solaris
+
+**Solaris** was the name of a group housing community in Lower Haight, and a workspace in North Mission.
+```
+
+The `#` heading supplies the page title. The first prose paragraph becomes the archive excerpt and SEO description. Everything is standard Markdown.
+
+Images live under `/public/images` and use normal Markdown image syntax. The optional image title becomes the visible caption:
+
+```md
+![Descriptive alt text](/images/solaris/solaris-sol.jpeg "Caption shown beneath the image")
+```
 
 _Caveat emptor: this project is very much subject to the curation and personal opinion of its [benevolent dictator](https://neall.org)._

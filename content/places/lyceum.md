@@ -1,14 +1,8 @@
----
-title: Lyceum
-category: place
----
+# Lyceum
 
 **Lyceum** (also known as Avalon, or Neethaus) is a [group house](/group-housing) in the Twin Peaks neighborhood of San Francisco.
 
-<ImageCard
-  name="East-facing view from Lyceum balcony"
-  imageSrc="/images/lyceum/balcony.jpg"
-/>
+![The view east from the Lyceum balcony](/images/lyceum/balcony.jpg "East-facing view from Lyceum balcony")
 
 ## Background
 

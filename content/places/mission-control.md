@@ -1,7 +1,4 @@
----
-title: Mission Control
-category: place
----
+# Mission Control
 
 **Mission Control** is a [group house](/group-housing) in the Mission District neighborhood of San Francisco.
 

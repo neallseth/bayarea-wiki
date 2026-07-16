@@ -1,16 +1,10 @@
----
-title: Lighthaven
-category: place
----
+# Lighthaven
 
 **Lighthaven** is an event space and residential campus in Berkeley, CA. It's located just south of the UC Berkeley campus, on Telegraph Ave.
 
 The campus is described by its operators, [Lightcone Infrastructure](https://www.lightconeinfrastructure.com/), as "Bell Labs for longtermism"[^1]. It caters heavily to the "North Wing" of the Bay Area's [megascene](/megascene) - offering space to communities associated with rationality, effective altruism, and AI research.
 
-<ImageCard
-  name="Lighthaven's Aumann Hall"
-  imageSrc="/images/lighthaven/lighthaven.jpg"
-/>
+![Aumann Hall at Lighthaven](/images/lighthaven/lighthaven.jpg "Lighthaven's Aumann Hall")
 
 ## Background
 

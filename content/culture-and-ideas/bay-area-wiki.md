@@ -1,6 +1,4 @@
----
-title: Bay Area Wiki
----
+# Bay Area Wiki
 
 [Bay Area Wiki](/bay-area-wiki) is an effort in digital archival and historical preservation of culturally notable places, institutions, and ideas emerging from the San Francisco Bay Area.
 
