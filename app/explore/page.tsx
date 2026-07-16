@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Explore",
+  title: "All articles",
   description:
     "Browse the Bay Area Wiki archive of notable places, communities, institutions, eras, and ideas.",
   alternates: { canonical: "/explore" },
@@ -30,11 +30,8 @@ export default async function Explore() {
   return (
     <CoreLayout>
       <header className="mb-14">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[var(--accent-dark)]">
-          The archive
-        </p>
         <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
-          Explore the Bay Area Wiki
+          All articles
         </h1>
         <p className="mt-5 max-w-[56ch] text-lg leading-8 text-[var(--muted)]">
           An evolving collection of places, communities, institutions, and ideas that have shaped the Bay Area’s cultural life.
