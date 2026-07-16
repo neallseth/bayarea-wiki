@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { lora } from "@/app/fonts/fonts";
 
-export function SiteHeader() {
+export function SiteHeader({ hideExplore = false }: { hideExplore?: boolean }) {
   return (
     <header className="mx-auto mb-14 flex w-full max-w-[70ch] items-center justify-between border-b border-[var(--line)] pb-4 sm:mb-18">
       <Link className="group flex items-center gap-3 no-underline" href="/" aria-label="Bay Area Wiki home">
@@ -19,9 +19,11 @@ export function SiteHeader() {
         </span>
       </Link>
       <nav aria-label="Primary navigation" className="flex items-center gap-4 text-sm sm:gap-6">
-        <Link className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" href="/explore">
-          Explore
-        </Link>
+        {!hideExplore && (
+          <Link className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" href="/explore">
+            Explore
+          </Link>
+        )}
         <Link className="text-[var(--muted)] transition-colors hover:text-[var(--foreground)]" href="/bay-area-wiki">
           About
         </Link>
@@ -33,13 +35,15 @@ export function SiteHeader() {
 export default function CoreLayout({
   children,
   home = false,
+  hideExplore = false,
 }: {
   children: React.ReactNode;
   home?: boolean;
+  hideExplore?: boolean;
 }) {
   return (
     <div className="w-full">
-      {!home && <SiteHeader />}
+      {!home && <SiteHeader hideExplore={hideExplore} />}
       <main
         className={`mx-auto w-full max-w-[70ch] ${
           home

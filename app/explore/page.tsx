@@ -7,18 +7,20 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All articles",
   description:
-    "Browse the Bay Area Wiki archive of notable places, communities, institutions, eras, and ideas.",
+    "An evolving collection of places, cultures, and ideas from the San Francisco Bay Area.",
   alternates: { canonical: "/explore" },
 };
 
 const categoryDetails = {
   place: {
+    id: "places",
     title: "Places",
-    description: "Group houses, gathering spaces, campuses, and institutions.",
+    description: "Spaces and institutions.",
   },
   misc: {
-    title: "Ideas & histories",
-    description: "The scenes, social forms, and eras that connect the Bay Area.",
+    id: "cultures-and-ideas",
+    title: "Cultures & ideas",
+    description: "Communities, movements, and histories.",
   },
 } as const;
 
@@ -28,13 +30,26 @@ export default async function Explore() {
   const articles = await getArticles();
 
   return (
-    <CoreLayout>
+    <CoreLayout hideExplore>
       <header className="mb-14">
         <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
           All articles
         </h1>
         <p className="mt-5 max-w-[56ch] text-lg leading-8 text-[var(--muted)]">
-          An evolving collection of places, communities, institutions, and ideas that have shaped the Bay Area’s cultural life.
+          An evolving collection of{" "}
+          <Link
+            href="#places"
+            className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
+          >
+            places
+          </Link>
+          ,{" "}
+          <Link
+            href="#cultures-and-ideas"
+            className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
+          >
+            cultures and ideas
+          </Link>
         </p>
       </header>
 
@@ -46,7 +61,7 @@ export default async function Explore() {
           const details = categoryDetails[category];
 
           return (
-            <section key={category} aria-labelledby={`${category}-heading`}>
+            <section id={details.id} key={category} aria-labelledby={`${category}-heading`} className="scroll-mt-8">
               <div className="mb-3 flex items-end justify-between gap-4 border-b border-[var(--line)] pb-4">
                 <div>
                   <h2 id={`${category}-heading`} className={`${lora.className} text-2xl font-semibold`}>
