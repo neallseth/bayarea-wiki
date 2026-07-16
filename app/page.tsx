@@ -7,7 +7,7 @@ import { SITE_DESCRIPTION } from "@/lib/site";
 export default function Home() {
   return (
     <CoreLayout home>
-      <section className="grid w-full items-center gap-10 sm:grid-cols-[minmax(0,1fr)_210px] sm:gap-10">
+      <section className="grid w-full items-center gap-6 sm:grid-cols-[minmax(0,1fr)_210px] sm:gap-10">
         <div className="relative z-10 sm:-translate-y-3">
           <h1 className={`${lora.className} text-[4rem] font-semibold leading-[0.9] tracking-[-0.045em] sm:text-[5.25rem]`}>
             <span className="block">Bay Area</span>
@@ -29,7 +29,7 @@ export default function Home() {
           alt="Illustration of the Golden Gate Bridge"
           width={210}
           height={315}
-          className="hidden h-[315px] w-[210px] translate-y-8 rounded-md object-cover shadow-[0_22px_55px_rgba(52,43,31,0.2)] ring-1 ring-black/10 sm:block"
+          className="mr-2 h-[210px] w-[140px] justify-self-end rounded-md object-cover shadow-[0_18px_45px_rgba(52,43,31,0.18)] ring-1 ring-black/10 sm:mr-0 sm:h-[315px] sm:w-[210px] sm:translate-y-8 sm:shadow-[0_22px_55px_rgba(52,43,31,0.2)]"
           priority
         />
       </section>
