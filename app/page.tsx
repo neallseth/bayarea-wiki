@@ -2,6 +2,7 @@ import Image from "next/image";
 import { lora } from "@/app/fonts/fonts";
 import Link from "next/link";
 import CoreLayout from "@/components/core-layout";
+import { SITE_DESCRIPTION } from "@/lib/site";
 
 export default function Home() {
   return (
@@ -13,7 +14,7 @@ export default function Home() {
             <span className="ml-[1.25ch] block text-[var(--accent-dark)]">Wiki</span>
           </h1>
           <p className="mt-8 max-w-[37ch] text-lg leading-8 text-[var(--muted)]">
-            Chronicling the cultures, places, and ideas of the San Francisco Bay Area.
+            {SITE_DESCRIPTION}
           </p>
           <Link
             className="group mt-7 inline-flex h-10 w-10 items-center justify-center text-2xl text-[var(--muted)] transition-colors hover:text-[var(--accent-dark)]"

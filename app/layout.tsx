@@ -2,31 +2,29 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { geistSans, geistMono } from "./fonts/fonts";
 import { Analytics } from "@vercel/analytics/react";
+import { SITE_DESCRIPTION, SITE_NAME } from "@/lib/site";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bayarea.wiki"),
   title: {
-    default: "Bay Area Wiki",
-    template: "%s — Bay Area Wiki",
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
   },
-  description:
-    "A small encyclopedia of notable places, communities, and ideas from the San Francisco Bay Area.",
+  description: SITE_DESCRIPTION,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     locale: "en_US",
     url: "/",
-    siteName: "Bay Area Wiki",
-    title: "Bay Area Wiki",
-    description:
-      "A small encyclopedia of notable places, communities, and ideas from the San Francisco Bay Area.",
+    siteName: SITE_NAME,
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     images: [{ url: "/og-minimal.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bay Area Wiki",
-    description:
-      "A small encyclopedia of notable places, communities, and ideas from the San Francisco Bay Area.",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
     images: ["/og-minimal.png"],
   },
 };

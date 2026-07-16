@@ -8,7 +8,6 @@ import {
 } from "@/components/core-elements";
 import CoreLayout from "@/components/core-layout";
 import { Metadata, ResolvingMetadata } from "next";
-import Image from "next/image";
 
 type RouteParams = Promise<{ slug: string }>;
 type Props = {
@@ -112,15 +111,16 @@ const articleComponents = {
       return <ExternalLink {...props}>{props.children}</ExternalLink>;
     }
   },
-  ImageCard: (props: { name: string; imageSrc: string; width?: number; height?: number }) => (
+  ImageCard: (props: { name: string; imageSrc: string }) => (
     <figure className="my-8">
-      <Image
+      {/* Article images use their natural dimensions so MDX authors only provide a source and caption. */}
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
         src={props.imageSrc}
         alt={props.name}
         className="h-auto w-full rounded-md shadow-sm ring-1 ring-black/10"
-        width={props.width ?? 1200}
-        height={props.height ?? 800}
-        sizes="(max-width: 768px) calc(100vw - 40px), 688px"
+        loading="lazy"
+        decoding="async"
       />
       <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
         {props.name}
