@@ -6,13 +6,14 @@ import CoreLayout from "@/components/core-layout";
 export default function Home() {
   return (
     <CoreLayout home>
-      <section className="grid w-full items-center gap-10 sm:grid-cols-[1fr_180px] sm:gap-14">
-        <div>
-          <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
-            Bay Area Wiki
+      <section className="grid w-full items-center gap-10 sm:grid-cols-[minmax(0,1fr)_210px] sm:gap-10">
+        <div className="relative z-10 sm:-translate-y-3">
+          <h1 className={`${lora.className} text-[4rem] font-semibold leading-[0.9] tracking-[-0.045em] sm:text-[5.25rem]`}>
+            <span className="block">Bay Area</span>
+            <span className="ml-[1.25ch] block text-[var(--accent-dark)]">Wiki</span>
           </h1>
-          <p className="mt-6 max-w-[58ch] text-lg leading-8 text-[var(--muted)]">
-            Recording culturally notable places, institutions, communities, and ideas emerging from the San Francisco Bay Area.
+          <p className="mt-8 max-w-[37ch] text-lg leading-8 text-[var(--muted)]">
+            Chronicling the cultures, places, and ideas of the San Francisco Bay Area.
           </p>
           <Link
             className="group mt-7 inline-flex h-10 w-10 items-center justify-center text-2xl text-[var(--muted)] transition-colors hover:text-[var(--accent-dark)]"
@@ -25,9 +26,9 @@ export default function Home() {
         <Image
           src="/images/ggb.jpg"
           alt="Illustration of the Golden Gate Bridge"
-          width={180}
-          height={270}
-          className="hidden h-[270px] w-[180px] rounded-md object-cover shadow-[0_18px_45px_rgba(52,43,31,0.18)] ring-1 ring-black/10 sm:block"
+          width={210}
+          height={315}
+          className="hidden h-[315px] w-[210px] translate-y-8 rounded-md object-cover shadow-[0_22px_55px_rgba(52,43,31,0.2)] ring-1 ring-black/10 sm:block"
           priority
         />
       </section>
