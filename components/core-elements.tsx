@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AnchorHTMLAttributes } from "react";
 
 export const HorizontalRule = () => (
-  <hr className="border-t border-gray-300 my-2" />
+  <hr className="my-3 border-t border-[var(--line)]" />
 );
 
 type LinkLikeProps = AnchorHTMLAttributes<HTMLAnchorElement>;
@@ -15,7 +15,10 @@ export const InternalLink = ({
 }: LinkLikeProps) => (
   <Link
     href={href}
-    className={["text-blue-600 hover:text-blue-400", className]
+    className={[
+      "font-medium text-[var(--accent-dark)] underline decoration-[color:var(--line)] underline-offset-3 transition-colors hover:text-[var(--accent)] hover:decoration-[var(--accent)]",
+      className,
+    ]
       .filter(Boolean)
       .join(" ")}
     {...props}
@@ -35,7 +38,10 @@ export const ExternalLink = ({
     href={href}
     target="_blank"
     rel={rel ?? "noopener noreferrer"}
-    className={["text-blue-600 hover:text-blue-400 hover:underline", className]
+    className={[
+      "font-medium text-[var(--accent-dark)] underline decoration-[color:var(--line)] underline-offset-3 transition-colors hover:text-[var(--accent)] hover:decoration-[var(--accent)]",
+      className,
+    ]
       .filter(Boolean)
       .join(" ")}
     {...props}

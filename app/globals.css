@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f7f3ea;
+  --surface: #fffdf8;
+  --foreground: #211f1a;
+  --muted: #6f6a60;
+  --line: #d8d0c2;
+  --accent: #c84f2d;
+  --accent-dark: #98381f;
 }
 
 @theme {
@@ -14,6 +19,26 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
+
+::selection {
+  color: var(--foreground);
+  background: #e9b7a7;
+}
+
+a,
+button {
+  outline-color: var(--accent);
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
 }
 
 @utility text-balance {

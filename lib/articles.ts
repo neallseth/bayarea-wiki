@@ -15,6 +15,7 @@ const contentDir = path.join(process.cwd(), "content");
 type ArticleFrontmatter = {
   title: string;
   category?: string;
+  description?: string;
 };
 
 type MdxComponents = Record<string, ElementType>;
@@ -101,11 +102,15 @@ export async function getArticle(
       extractArticleMeta(fileContent),
     ]);
 
+  if (typeof frontmatter.title !== "string" || !frontmatter.title.trim()) {
+    throw new Error(`Article ${fileName} is missing a valid title in its frontmatter.`);
+  }
+
   return {
     title: frontmatter.title,
     category: frontmatter.category,
     content,
-    excerpt,
+    excerpt: frontmatter.description?.trim() || excerpt,
     firstImageUrl,
     slug: path.parse(fileName).name,
   };

@@ -28,8 +28,14 @@ export async function generateMetadata(
   return {
     title: article.title,
     description: article.excerpt,
+    alternates: { canonical: `/${slug}` },
 
     openGraph: {
+      type: "article",
+      url: `/${slug}`,
+      siteName: "Bay Area Wiki",
+      title: article.title,
+      description: article.excerpt ?? undefined,
       images: article.firstImageUrl
         ? article.firstImageUrl
         : [...previousImages],
@@ -48,39 +54,39 @@ export async function generateMetadata(
 
 const articleComponents = {
   h1: (props: { children?: ReactNode }) => (
-    <h1 className={`${lora.className} font-semibold text-2xl mb-4`}>
+    <h1 className={`${lora.className} mb-5 text-3xl font-semibold tracking-[-0.02em]`}>
       {props.children}
     </h1>
   ),
   h2: (props: { children?: ReactNode }) => (
     <>
-      <h2 className={`${lora.className} font-semibold text-xl`}>
+      <h2 className={`${lora.className} mt-10 text-2xl font-semibold tracking-[-0.015em]`}>
         {props.children}
       </h2>
       <HorizontalRule />
     </>
   ),
   h3: (props: { children?: ReactNode }) => (
-    <h3 className={`${lora.className} font-semibold text-lg mb-2`}>
+    <h3 className={`${lora.className} mb-2 mt-8 text-xl font-semibold`}>
       {props.children}
     </h3>
   ),
   p: (props: { children?: ReactNode }) => (
-    <p className="text-base leading-relaxed text-gray-900 mb-4">
+    <p className="mb-5 text-[17px] leading-7 text-[var(--foreground)]">
       {props.children}
     </p>
   ),
   ul: (props: { children?: ReactNode }) => (
-    <ul className="list-disc list-inside pl-5 mb-4">{props.children}</ul>
+    <ul className="mb-5 list-disc space-y-1 pl-6 text-[17px] leading-7">{props.children}</ul>
   ),
   ol: (props: { children?: ReactNode }) => (
-    <ol className="list-decimal pl-5 mb-4">{props.children}</ol>
+    <ol className="mb-5 list-decimal space-y-1 pl-6 text-[17px] leading-7">{props.children}</ol>
   ),
   li: (props: { children?: ReactNode }) => (
-    <li className="mb-1 leading-relaxed">{props.children}</li>
+    <li className="pl-1">{props.children}</li>
   ),
   blockquote: (props: { children?: ReactNode }) => (
-    <blockquote className="border-l-4 border-gray-300 pl-4 italic text-gray-700 my-4">
+    <blockquote className="my-7 border-l-2 border-[var(--accent)] pl-5 italic text-[var(--muted)]">
       {props.children}
     </blockquote>
   ),
@@ -90,10 +96,10 @@ const articleComponents = {
       <img
         src={props.src ?? ""}
         alt={props.alt}
-        className="max-w-full mx-auto"
+        className="mx-auto h-auto max-w-full rounded-md"
       />
       {props.alt && (
-        <figcaption className="text-center text-sm text-gray-600 mt-2">
+        <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
           {props.alt}
         </figcaption>
       )}
@@ -106,17 +112,20 @@ const articleComponents = {
       return <ExternalLink {...props}>{props.children}</ExternalLink>;
     }
   },
-  ImageCard: (props: { name: string; imageSrc: string }) => (
-    <div className="border border-gray-300 rounded-lg overflow-hidden my-4">
+  ImageCard: (props: { name: string; imageSrc: string; width?: number; height?: number }) => (
+    <figure className="my-8">
       <Image
         src={props.imageSrc}
         alt={props.name}
-        className="w-full h-auto"
-        width={300}
-        height={300}
+        className="h-auto w-full rounded-md shadow-sm ring-1 ring-black/10"
+        width={props.width ?? 1200}
+        height={props.height ?? 800}
+        sizes="(max-width: 768px) calc(100vw - 40px), 688px"
       />
-      <p className="p-4 text-sm text-gray-800">{props.name}</p>
-    </div>
+      <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
+        {props.name}
+      </figcaption>
+    </figure>
   ),
   HorizontalRule: () => <HorizontalRule />,
 };
@@ -134,15 +143,43 @@ export default async function ArticlePage({
 }: Props) {
   const { slug } = await params;
   const article = await getArticle(slug, articleComponents);
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: article.title,
+    description: article.excerpt,
+    image: article.firstImageUrl
+      ? new URL(article.firstImageUrl, "https://bayarea.wiki").toString()
+      : undefined,
+    mainEntityOfPage: `https://bayarea.wiki/${slug}`,
+    publisher: {
+      "@type": "Organization",
+      name: "Bay Area Wiki",
+      url: "https://bayarea.wiki",
+    },
+  };
+
   return (
     <CoreLayout>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
       <article className="w-full">
-        <h1 className={`text-2xl font-semibold ${lora.className}`}>
+        <h1 className={`${lora.className} text-4xl font-semibold tracking-[-0.025em] sm:text-5xl`}>
           {article.title}
         </h1>
-        <HorizontalRule />
+        <div className="mb-8 mt-6 h-px bg-[var(--line)]" />
         {article.content}
       </article>
+      <footer className="mt-16 border-t border-[var(--line)] pt-7 text-right text-sm">
+        <ExternalLink
+          className="no-underline"
+          href={`https://github.com/neallseth/bayarea-wiki/edit/main/content/${slug}.mdx`}
+        >
+          Suggest an edit →
+        </ExternalLink>
+      </footer>
     </CoreLayout>
   );
 }
