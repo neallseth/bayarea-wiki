@@ -2,13 +2,13 @@
 
 **Lighthaven** is an event space and residential campus in Berkeley, CA. It's located just south of the UC Berkeley campus, on Telegraph Ave.
 
-The campus is described by its operators, [Lightcone Infrastructure](https://www.lightconeinfrastructure.com/), as "Bell Labs for longtermism"[^1]. It caters heavily to the "North Wing" of the Bay Area's [megascene](/megascene) - offering space to communities associated with rationality, effective altruism, and AI research.
+The campus is described by its operators, [Lightcone Infrastructure](https://www.lightconeinfrastructure.com/), as "Bell Labs for longtermism"[^1]. It caters mostly to [Wing Two, sub-wing A](/megascene) of the Bay Area's megascene - offering space to communities associated with rationality, effective altruism, and AI research.
 
 ![Aumann Hall at Lighthaven](/images/lighthaven/lighthaven.jpg "Lighthaven's Aumann Hall")
 
 ## Background
 
-Lighthaven is on the site of of the former Rose Garden Inn. The property was acquired by Lightcone Infrastructure in late 2022, and began fully operating in May of 2024 (though it began operations in a smaller capacity upon its acquisition).
+Lighthaven is on the site of the former Rose Garden Inn. The property was acquired by Lightcone Infrastructure in late 2022, and began fully operating in May of 2024 (though it began operations in a smaller capacity upon its acquisition).
 
 ## Facilities
 
@@ -22,7 +22,7 @@ As of 2024, the campus is composed of 7 buildings:
 - Feynman House
 - The Guesthouse
 
-Together, these buildings house bedrooms (44), conference rooms, lounge spaces, and a gym. The builings are connected by a network of pathways and large courtyards.
+Together, these buildings house bedrooms (44), conference rooms, lounge spaces, and a gym. The buildings are connected by a network of pathways and large courtyards.
 
 ## Notable events and programs
 

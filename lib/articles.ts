@@ -11,7 +11,7 @@ import type { ElementType, ReactNode } from "react";
 
 const contentDir = path.join(process.cwd(), "content");
 
-export const articleCategories = ["places", "culture-and-ideas"] as const;
+export const articleCategories = ["places", "culture-and-ideas", "artifacts"] as const;
 export type ArticleCategory = (typeof articleCategories)[number];
 
 type ArticleMeta = {

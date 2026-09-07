@@ -17,7 +17,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Hive
 - Let's Be Buds
 - Loophole
-- [Lyceum](/lyceum)
+- [Avalon](/avalon)
 - Masonic
 - [Mission Control](/mission-control)
 - Mission Dolores Mansion

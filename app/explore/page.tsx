@@ -15,12 +15,14 @@ const categoryDetails = {
   places: {
     id: "places",
     title: "Places",
-    description: "Spaces and institutions.",
   },
   "culture-and-ideas": {
     id: "culture-and-ideas",
     title: "Culture & ideas",
-    description: "Communities, movements, and histories.",
+  },
+  artifacts: {
+    id: "artifacts",
+    title: "Artifacts",
   },
 } as const;
 
@@ -50,6 +52,13 @@ export default async function Explore() {
           >
             culture and ideas
           </Link>
+          , and{" "}
+          <Link
+            href="#artifacts"
+            className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
+          >
+            artifacts
+          </Link>
         </p>
       </header>
 
@@ -63,12 +72,9 @@ export default async function Explore() {
           return (
             <section id={details.id} key={category} aria-labelledby={`${category}-heading`} className="scroll-mt-8">
               <div className="mb-3 flex items-end justify-between gap-4 border-b border-[var(--line)] pb-4">
-                <div>
-                  <h2 id={`${category}-heading`} className={`${lora.className} text-2xl font-semibold`}>
-                    {details.title}
-                  </h2>
-                  <p className="mt-1 text-sm leading-6 text-[var(--muted)]">{details.description}</p>
-                </div>
+                <h2 id={`${category}-heading`} className={`${lora.className} text-2xl font-semibold`}>
+                  {details.title}
+                </h2>
                 <span className="shrink-0 text-xs font-semibold tabular-nums text-[var(--muted)]">
                   {categoryArticles.length} {categoryArticles.length === 1 ? "entry" : "entries"}
                 </span>
