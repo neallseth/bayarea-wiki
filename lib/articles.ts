@@ -135,33 +135,22 @@ function extractArticleMeta(body: string, fileName: string): ArticleMeta {
   return { title, excerpt, firstImageUrl };
 }
 
-const imageDimensionCache = new Map<
-  string,
-  Promise<{ width: number; height: number } | null>
->();
+// Markdown images are string paths, so next/image can't infer their size the
+// way it does for static imports. Read the intrinsic dimensions of images
+// under /public at build time instead. sharp already ships with Next.
+async function getImageDimensions(src: string) {
+  if (!src.startsWith("/") || src.startsWith("//")) return null;
 
-// Reads intrinsic dimensions for images under /public so they can be rendered
-// with next/image (optimized, no layout shift). Non-local images return null.
-function getLocalImageDimensions(src: string) {
-  if (!src.startsWith("/") || src.startsWith("//")) {
-    return Promise.resolve(null);
+  try {
+    const { width, height, orientation } = await sharp(
+      path.join(publicDir, decodeURIComponent(src))
+    ).metadata();
+    if (!width || !height) return null;
+    // EXIF orientations 5-8 display the image rotated 90 degrees
+    return (orientation ?? 1) >= 5 ? { width: height, height: width } : { width, height };
+  } catch {
+    return null;
   }
-
-  const cached = imageDimensionCache.get(src);
-  if (cached) return cached;
-
-  const pending = sharp(path.join(publicDir, decodeURIComponent(src)))
-    .metadata()
-    .then(({ width, height, orientation }) => {
-      if (!width || !height) return null;
-      // EXIF orientations 5-8 rotate the image 90 degrees when displayed
-      const rotated = orientation !== undefined && orientation >= 5;
-      return rotated ? { width: height, height: width } : { width, height };
-    })
-    .catch(() => null);
-
-  imageDimensionCache.set(src, pending);
-  return pending;
 }
 
 function rehypeImageDimensions() {
@@ -173,17 +162,10 @@ function rehypeImageDimensions() {
       }
     });
 
-    await Promise.all(
-      images.map(async (image) => {
-        const dimensions = await getLocalImageDimensions(
-          image.properties.src as string
-        );
-        if (dimensions) {
-          image.properties.width = dimensions.width;
-          image.properties.height = dimensions.height;
-        }
-      })
-    );
+    for (const image of images) {
+      const size = await getImageDimensions(image.properties.src as string);
+      if (size) Object.assign(image.properties, size);
+    }
   };
 }
 
