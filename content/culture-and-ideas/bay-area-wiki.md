@@ -1,8 +1,8 @@
 # Bay Area Wiki
 
-[Bay Area Wiki](/bay-area-wiki) is an effort in digital archival and historical preservation of culturally notable places, institutions, and ideas emerging from the San Francisco Bay Area.
+**Bay Area Wiki** is an effort in digital archival and historical preservation of culturally notable places, institutions, and ideas emerging from the San Francisco Bay Area.
 
-Bay Area Wiki particularly emphasizes developments in the the Bay Area's "[Megascene](/megascene)."
+Bay Area Wiki particularly emphasizes developments in the Bay Area's "[megascene](/megascene)."
 
 ## Management and curation
 

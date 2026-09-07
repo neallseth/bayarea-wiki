@@ -4,7 +4,7 @@
 
 ## Group housing community
 
-The Solaris community was most active during SF's [Layoff Rennaissance](/key-eras); at the time, it was known for hosting weekly dinner parties, pitch competitions, and hackathons.
+The Solaris community was most active during SF's [Layoff Renaissance](/key-eras); at the time, it was known for hosting weekly dinner parties, pitch competitions, and hackathons.
 
 It was composed of four main houses (along with a handful of satellite units), clustered around Haight & Steiner:
 
@@ -19,7 +19,7 @@ As of early 2025, the four houses largely remain inhabited by the original resid
 
 ## Workspace
 
-The SolarisAI workspace was formerly located on the third and fourth floors of the commerical property at 1680 Mission St.
+The SolarisAI workspace was formerly located on the third and fourth floors of the commercial property at 1680 Mission St.
 
 ![Wall art inside the SolarisAI workspace](/images/solaris/solaris-ai-wall.jpeg "Tongue-in-cheek wall art referencing a famous Nat Friedman tweet")
 

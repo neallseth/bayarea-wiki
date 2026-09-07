@@ -1,6 +1,6 @@
 # DirectorySF
 
-DirectorySF is a referral-only social directory and housing platform catering to the Bay Area's [megascene](/megascene).
+**DirectorySF** is a referral-only social directory and housing platform catering to the Bay Area's [megascene](/megascene).
 
 ## Goals
 
@@ -12,4 +12,4 @@ What _specifically_ emerges - art projects, technologies, institutions, or novel
 
 ## Active domains
 
-DirectorySF is accessible at [directorysf.com](https://directorysf.com) and [directorysf.org](https://directorysf.org)
+DirectorySF is accessible at [directorysf.com](https://directorysf.com) and [directorysf.org](https://directorysf.org).

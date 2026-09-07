@@ -6,12 +6,13 @@ Particular emphasis is placed on the Bay Area's [Megascene](https://bayarea.wiki
 
 ### Writing an article
 
-Articles are plain Markdown files organized into two folders:
+Articles are plain Markdown files organized into three folders:
 
 ```text
 content/
 ├── places/
-└── culture-and-ideas/
+├── culture-and-ideas/
+└── artifacts/
 ```
 
 The folder supplies the article's category and the filename becomes its URL slug. Every article begins with its title and an introductory paragraph:

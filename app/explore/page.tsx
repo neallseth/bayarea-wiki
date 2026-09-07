@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "All articles",
   description:
-    "An evolving collection of places, culture, and ideas from the San Francisco Bay Area.",
+    "An evolving collection of places, culture, ideas, and artifacts from the San Francisco Bay Area.",
   alternates: { canonical: "/explore" },
 };
 
@@ -21,6 +21,11 @@ const categoryDetails = {
     id: "culture-and-ideas",
     title: "Culture & ideas",
     description: "Communities, movements, and histories.",
+  },
+  artifacts: {
+    id: "artifacts",
+    title: "Artifacts",
+    description: "Projects, platforms, and things the scene has made.",
   },
 } as const;
 
@@ -49,6 +54,13 @@ export default async function Explore() {
             className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
           >
             culture and ideas
+          </Link>
+          , and{" "}
+          <Link
+            href="#artifacts"
+            className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
+          >
+            artifacts
           </Link>
         </p>
       </header>
