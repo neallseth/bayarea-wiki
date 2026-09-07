@@ -2,16 +2,11 @@
   "name": "bayarea-wiki",
   "version": "0.1.0",
   "private": true,
-  "packageManager": "pnpm@10.4.0",
-  "engines": {
-    "node": ">=22"
-  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint .",
-    "typecheck": "tsc --noEmit"
+    "lint": "eslint ."
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.3.3",
