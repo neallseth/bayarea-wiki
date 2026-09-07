@@ -1,5 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { unified } from "unified";
@@ -10,6 +11,9 @@ import type { Element, Root as HastRoot } from "hast";
 import type { ElementType, ReactNode } from "react";
 
 const contentDir = path.join(process.cwd(), "content");
+const publicDir = path.join(process.cwd(), "public");
+
+export const SITE_URL = "https://bayarea.wiki";
 
 export const articleCategories = ["places", "culture-and-ideas", "artifacts"] as const;
 export type ArticleCategory = (typeof articleCategories)[number];
@@ -131,6 +135,58 @@ function extractArticleMeta(body: string, fileName: string): ArticleMeta {
   return { title, excerpt, firstImageUrl };
 }
 
+const imageDimensionCache = new Map<
+  string,
+  Promise<{ width: number; height: number } | null>
+>();
+
+// Reads intrinsic dimensions for images under /public so they can be rendered
+// with next/image (optimized, no layout shift). Non-local images return null.
+function getLocalImageDimensions(src: string) {
+  if (!src.startsWith("/") || src.startsWith("//")) {
+    return Promise.resolve(null);
+  }
+
+  const cached = imageDimensionCache.get(src);
+  if (cached) return cached;
+
+  const pending = sharp(path.join(publicDir, decodeURIComponent(src)))
+    .metadata()
+    .then(({ width, height, orientation }) => {
+      if (!width || !height) return null;
+      // EXIF orientations 5-8 rotate the image 90 degrees when displayed
+      const rotated = orientation !== undefined && orientation >= 5;
+      return rotated ? { width: height, height: width } : { width, height };
+    })
+    .catch(() => null);
+
+  imageDimensionCache.set(src, pending);
+  return pending;
+}
+
+function rehypeImageDimensions() {
+  return async (tree: HastRoot) => {
+    const images: Element[] = [];
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName === "img" && typeof node.properties.src === "string") {
+        images.push(node);
+      }
+    });
+
+    await Promise.all(
+      images.map(async (image) => {
+        const dimensions = await getLocalImageDimensions(
+          image.properties.src as string
+        );
+        if (dimensions) {
+          image.properties.width = dimensions.width;
+          image.properties.height = dimensions.height;
+        }
+      })
+    );
+  };
+}
+
 function rehypeFigureCaptions() {
   return (tree: HastRoot) => {
     visit(tree, "element", (node: Element) => {
@@ -177,7 +233,7 @@ export async function getArticle(
       mdxOptions: {
         format: "md",
         remarkPlugins: [remarkGfm],
-        rehypePlugins: [rehypeFigureCaptions],
+        rehypePlugins: [rehypeFigureCaptions, rehypeImageDimensions],
       },
     },
     components,

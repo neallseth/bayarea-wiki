@@ -4,11 +4,16 @@ import { lora } from "@/app/fonts/fonts";
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const title = "All articles";
+const description =
+  "An evolving collection of places, culture, and ideas from the San Francisco Bay Area.";
+
 export const metadata: Metadata = {
-  title: "All articles",
-  description:
-    "An evolving collection of places, culture, and ideas from the San Francisco Bay Area.",
+  title,
+  description,
   alternates: { canonical: "/explore" },
+  openGraph: { type: "website", url: "/explore", title, description },
+  twitter: { title, description },
 };
 
 const categoryDetails = {

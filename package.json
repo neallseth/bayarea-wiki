@@ -2,34 +2,40 @@
   "name": "bayarea-wiki",
   "version": "0.1.0",
   "private": true,
+  "packageManager": "pnpm@10.4.0",
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tailwindcss/postcss": "^4.2.2",
+    "@tailwindcss/postcss": "^4.3.3",
     "@types/mdast": "^4.0.4",
     "@vercel/analytics": "^2.0.1",
-    "next": "^16.2.2",
+    "next": "^16.3.4",
     "next-mdx-remote": "^6.0.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
     "remark-gfm": "^4.0.1",
     "remark-parse": "^11.0.0",
+    "sharp": "^0.35.4",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0"
   },
   "devDependencies": {
-    "@types/hast": "3.0.4",
-    "@types/node": "^25.5.2",
-    "@types/react": "^19.2.14",
-    "@types/react-dom": "^19.2.3",
-    "eslint": "^9.39.4",
-    "eslint-config-next": "^16.2.2",
-    "postcss": "^8.5.9",
-    "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2"
+    "@types/hast": "3.0.5",
+    "@types/node": "^25.9.5",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.7",
+    "eslint": "^9.39.5",
+    "eslint-config-next": "^16.3.4",
+    "postcss": "^8.5.28",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3"
   }
 }
