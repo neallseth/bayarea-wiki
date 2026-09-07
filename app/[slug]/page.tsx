@@ -1,5 +1,7 @@
-import { getAllArticleSlugs, getArticle } from "@/lib/articles";
+import { getAllArticleSlugs, getArticle, SITE_URL } from "@/lib/articles";
+import { SITE_AUTHOR, SITE_NAME } from "@/lib/site";
 import { lora } from "../fonts/fonts";
+import Image from "next/image";
 import { AnchorHTMLAttributes, ImgHTMLAttributes, ReactNode } from "react";
 import {
   ExternalLink,
@@ -32,7 +34,7 @@ export async function generateMetadata(
     openGraph: {
       type: "article",
       url: `/${slug}`,
-      siteName: "Bay Area Wiki",
+      siteName: SITE_NAME,
       title: article.title,
       description: article.excerpt ?? undefined,
       images: article.firstImageUrl
@@ -95,16 +97,38 @@ const articleComponents = {
   figure: (props: { children?: ReactNode }) => (
     <figure className="my-8">{props.children}</figure>
   ),
-  img: (props: ImgHTMLAttributes<HTMLImageElement>) => (
-    /* eslint-disable-next-line @next/next/no-img-element */
-    <img
-      src={props.src ?? ""}
-      alt={props.alt ?? ""}
-      className="h-auto w-full rounded-md shadow-sm ring-1 ring-black/10"
-      loading="lazy"
-      decoding="async"
-    />
-  ),
+  img: (props: ImgHTMLAttributes<HTMLImageElement>) => {
+    const src = typeof props.src === "string" ? props.src : "";
+    const width = Number(props.width);
+    const height = Number(props.height);
+    const className = "h-auto w-full rounded-md shadow-sm ring-1 ring-black/10";
+
+    // Local images get intrinsic dimensions at build time (see lib/articles.ts),
+    // which lets next/image resize, convert, and reserve layout space for them.
+    if (src && width > 0 && height > 0) {
+      return (
+        <Image
+          src={src}
+          alt={props.alt ?? ""}
+          width={width}
+          height={height}
+          sizes="(max-width: 720px) 100vw, 680px"
+          className={className}
+        />
+      );
+    }
+
+    return (
+      /* eslint-disable-next-line @next/next/no-img-element */
+      <img
+        src={src}
+        alt={props.alt ?? ""}
+        className={className}
+        loading="lazy"
+        decoding="async"
+      />
+    );
+  },
   figcaption: (props: { children?: ReactNode }) => (
     <figcaption className="mt-3 border-l-2 border-[var(--accent)] pl-3 text-sm leading-6 text-[var(--muted)]">
       {props.children}
@@ -132,19 +156,29 @@ export default async function ArticlePage({
 }: Props) {
   const { slug } = await params;
   const article = await getArticle(slug, articleComponents);
+  const articleUrl = `${SITE_URL}/${slug}`;
   const articleJsonLd = {
     "@context": "https://schema.org",
     "@type": "Article",
     headline: article.title,
     description: article.excerpt,
+    url: articleUrl,
+    inLanguage: "en-US",
     image: article.firstImageUrl
-      ? new URL(article.firstImageUrl, "https://bayarea.wiki").toString()
+      ? new URL(article.firstImageUrl, SITE_URL).toString()
       : undefined,
-    mainEntityOfPage: `https://bayarea.wiki/${slug}`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
+    isPartOf: { "@type": "WebSite", "@id": `${SITE_URL}/#website` },
+    author: {
+      "@type": "Person",
+      name: SITE_AUTHOR.name,
+      url: SITE_AUTHOR.url,
+    },
     publisher: {
       "@type": "Organization",
-      name: "Bay Area Wiki",
-      url: "https://bayarea.wiki",
+      name: SITE_NAME,
+      url: SITE_URL,
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/og-minimal.png` },
     },
   };
 

@@ -1,15 +1,15 @@
 import type { MetadataRoute } from "next";
-import { getAllArticleSlugs } from "@/lib/articles";
+import { getAllArticleSlugs, SITE_URL } from "@/lib/articles";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const slugs = await getAllArticleSlugs();
   const articles = slugs.map(({ slug }) => ({
-    url: `https://bayarea.wiki/${slug}`,
+    url: `${SITE_URL}/${slug}`,
   }));
 
   return [
-    { url: "https://bayarea.wiki" },
-    { url: "https://bayarea.wiki/explore" },
+    { url: SITE_URL, priority: 1 },
+    { url: `${SITE_URL}/explore`, priority: 0.8 },
     ...articles,
   ];
 }

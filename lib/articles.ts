@@ -1,5 +1,6 @@
 import { readFile, readdir } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 import { compileMDX } from "next-mdx-remote/rsc";
 import remarkGfm from "remark-gfm";
 import { unified } from "unified";
@@ -10,6 +11,9 @@ import type { Element, Root as HastRoot } from "hast";
 import type { ElementType, ReactNode } from "react";
 
 const contentDir = path.join(process.cwd(), "content");
+const publicDir = path.join(process.cwd(), "public");
+
+export const SITE_URL = "https://bayarea.wiki";
 
 export const articleCategories = ["places", "culture-and-ideas", "artifacts"] as const;
 export type ArticleCategory = (typeof articleCategories)[number];
@@ -131,6 +135,40 @@ function extractArticleMeta(body: string, fileName: string): ArticleMeta {
   return { title, excerpt, firstImageUrl };
 }
 
+// Markdown images are string paths, so next/image can't infer their size the
+// way it does for static imports. Read the intrinsic dimensions of images
+// under /public at build time instead. sharp already ships with Next.
+async function getImageDimensions(src: string) {
+  if (!src.startsWith("/") || src.startsWith("//")) return null;
+
+  try {
+    const { width, height, orientation } = await sharp(
+      path.join(publicDir, decodeURIComponent(src))
+    ).metadata();
+    if (!width || !height) return null;
+    // EXIF orientations 5-8 display the image rotated 90 degrees
+    return (orientation ?? 1) >= 5 ? { width: height, height: width } : { width, height };
+  } catch {
+    return null;
+  }
+}
+
+function rehypeImageDimensions() {
+  return async (tree: HastRoot) => {
+    const images: Element[] = [];
+    visit(tree, "element", (node: Element) => {
+      if (node.tagName === "img" && typeof node.properties.src === "string") {
+        images.push(node);
+      }
+    });
+
+    for (const image of images) {
+      const size = await getImageDimensions(image.properties.src as string);
+      if (size) Object.assign(image.properties, size);
+    }
+  };
+}
+
 function rehypeFigureCaptions() {
   return (tree: HastRoot) => {
     visit(tree, "element", (node: Element) => {
@@ -177,7 +215,7 @@ export async function getArticle(
       mdxOptions: {
         format: "md",
         remarkPlugins: [remarkGfm],
-        rehypePlugins: [rehypeFigureCaptions],
+        rehypePlugins: [rehypeFigureCaptions, rehypeImageDimensions],
       },
     },
     components,
