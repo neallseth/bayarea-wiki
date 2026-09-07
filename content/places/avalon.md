@@ -6,7 +6,7 @@
 
 ## Background
 
-Avalon was founded (as Lyceum) in late summer 2024 by Twitter user _@PrinceVogel_[^1], filling a years-old void of physical spaces catering to the burgeoning [Wing Two](/megascene) of the Bay Area's megascene.
+Avalon was founded in late summer 2024 by Twitter user _@PrinceVogel_[^1], filling a years-old void of physical spaces catering to the burgeoning [Wing Two](/megascene) of the Bay Area's megascene.
 
 It aims to be a home for discourse on philosophy, literature, history, and the arts.
 
