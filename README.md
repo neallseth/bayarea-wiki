@@ -31,4 +31,6 @@ Images live under `/public/images` and use normal Markdown image syntax. The opt
 ![Descriptive alt text](/images/solaris/solaris-sol.jpeg "Caption shown beneath the image")
 ```
 
+Images are served through `next/image`, which resizes and converts them per device at request time. Originals only need to be about 1600px on the long edge. After adding new images, run `pnpm images` to downscale anything larger than that (or heavier than 500 KB).
+
 _Caveat emptor: this project is very much subject to the curation and personal opinion of its [benevolent dictator](https://neall.org)._
