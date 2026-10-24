@@ -50,19 +50,12 @@ export default async function Explore() {
           >
             places
           </Link>
-          ,{" "}
+          {" "}and{" "}
           <Link
             href="#culture-and-ideas"
             className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
           >
             culture and ideas
-          </Link>
-          , and{" "}
-          <Link
-            href="#artifacts"
-            className="text-[var(--accent-dark)] underline decoration-[var(--line)] underline-offset-4 hover:decoration-[var(--accent)]"
-          >
-            artifacts
           </Link>
         </p>
       </header>
