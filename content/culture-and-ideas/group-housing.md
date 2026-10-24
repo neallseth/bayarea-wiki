@@ -14,6 +14,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Beacon House
 - Bunny House
 - Bushy House
+- Eden House
 - Hive
 - Let's Be Buds
 - Loophole
