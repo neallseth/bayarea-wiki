@@ -18,6 +18,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Let's Be Buds
 - Loophole
 - [Avalon](/avalon)
+- [LXM](/lxm)
 - Masonic
 - [Mission Control](/mission-control)
 - Mission Dolores Mansion
@@ -31,9 +32,12 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Teupos
 - The Arc
 - The Embassy
+- The Loaf
 - The Muse
 - The Village
 - Thriving Mushrooms
+- Turby
+- Waffle House
 
 ### East Bay
 
