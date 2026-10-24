@@ -9,7 +9,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - 20mish
 - 908
 - Accelr8
-- AGI House (SF)
+- AGI House
 - Agape
 - Beacon House
 - Bunny House
@@ -17,17 +17,17 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Eden House
 - Hive
 - Let's Be Buds
+- Lighthouse
 - Loophole
 - [Avalon](/avalon)
 - [LXM](/lxm)
 - Masonic
 - [Mission Control](/mission-control)
 - Mission Dolores Mansion
-- Mosaic House
+- Mosaic
 - Monument
 - Orange House
 - RGB
-- Sandwich House
 - Solaris
 - Template House
 - Teupos
@@ -35,6 +35,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - The Embassy
 - The Loaf
 - The Muse
+- The Sandwich
 - The Village
 - Thriving Mushrooms
 - Turby
@@ -46,7 +47,8 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 - Arcadia
 - Azkaban
 - Burrow
-- Time Cube
+- Godric's Hollow (Berkeley)
+- Timecube (Berkeley)
 - Yolo House
 
 ### Peninsula
@@ -58,6 +60,7 @@ San Francisco's Bay Area has a decades-long history of novel housing arrangement
 
 ### San Francisco
 
+- Eucalyptus
 - [Genesis](/genesis)
 - Shake House
 - The Archive
